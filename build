@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#------------------------------------------------------
+# Prerequisites are compiled here
+
+
+
+
+
+
+#------------------------------------------------------
+# compile the main program
+g++ -o ChessTrack CMT.cpp
+
+
+
