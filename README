@@ -3,6 +3,7 @@
 # This is a C++ program to read an imput of 64 boolean inputs and determine
 # the moves made in a chess game.
 #
+#--------------------------------------------------------------------------------------------------------
 # Overview:
 # The Chess move track project has two phases. The first is to record moves made in a physical game
 # and convert that to a digital output to a computer. The second phase (which will be the present focus)
@@ -15,3 +16,10 @@
 #	2. Develop a rule set for each piece to validate the moves made, for instance checks.
 #
 #	3. Generate outputs in specific formats to enable analysis of the game.
+#
+#--------------------------------------------------------------------------------------------------------
+# Operation:
+# The framework of the program is:
+#	1. Object Board
+#		functions:	a. read_data	->	reads the inputs (columns=A1,A2... & rows=move_numebr)	
+#				b. printBoard	->	prints the board after a particular move number
