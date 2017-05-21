@@ -7,7 +7,7 @@ using namespace std;
 class Board
 {
 	public:	
-		
+
 		// Constructors
 		Board()
 		{
@@ -41,7 +41,6 @@ class Board
 			}
 			file.clear();
 			file.seekg(0, ios::beg);
-			//cout<<'\n'<<"Number of lines counted "<<nLines<<endl;
 
 			// Define the move set array
 			posData.resize(nLines);
@@ -63,10 +62,10 @@ class Board
 		// Print the data of the current move
 		void printBoard(int move)
 		{
+			printf("\n--------------------------------------------");
 			// Track what piece moved and update the board before print
 			track(move);			
 
-			printf("\n--------------------------------------------");
 			printf("\nMove number : %d",move);
 			printf("\n"); 
 			for(int i=Brows-1;i>=0;i--)
@@ -74,60 +73,58 @@ class Board
 				cout<<'|';
 				for(int j=0;j<Bcol;j++)
 				{
-				cout<<pieceData[move][i*Bcol+j]<<'|';
+					cout<<pieceData[move][i*Bcol+j]<<'|';
 				}
 				cout<<'\n';
 			}
 			printf("\n--------------------------------------------\n");
-
 		}
 
 		// Track the movement of pieces
 		void track(int move)		
 		{
 			if (move<=0) 
-			{ printf("This is the initial position");}
+			{ printf("\nThis is the initial position");}
 			else
 			{ 
 				// Search the board for changes
-				c1=0;c2=0;
+				c1=-1;c2=-1;
+
 				for (int i=0;i<BSize;i++)
 				{
 					if(posData[move][i]-posData[move-1][i]!=0)
 					{
-						if (c1==0)
-						{c1=i;} 
-						else 
-						{c2=i;}
+						if(pieceData[move-1][i] == ' '){c2=i;} else {c1=i;}
 					}
 				}
-				if (move%2==0) {Player='B';} else {Player='W';}	//Identify who played
-			 	checkPiece(move-1,c1,c2);
-				Piece_move(move,c1,c2); 	
 				// report the findings
-				//cout<<"A piece was moved from "<<<<" to "<<char((c2+1)/8+65)<<(c2+1)%8<<" or the other way round"<<endl;
+				cout<<"\nA piece "<<pieces[findPiece(c1)]->getType() <<" was moved from "<<c1<<" to "<<c2<<endl;
+				
+				if (move%2==0) {Player='B';} else {Player='W';}	//Identify who played
+				Piece_move(move,c1,c2); 	
 			}
 		}
 
-		
-		// Check piece
-		char checkPiece(int move_,int &c1_,int &c2_)
+		// Find what piece is there in a particular version of the code
+		int findPiece(int loc_)		
 		{
-			if (pieceData[move_][c1_]==' ') {
-			int temp = c1_;
-			c1_=c2_;
-			c2_=c1_;
+			int found=-1;
+			for (int i=0;i<32;i++)
+			{
+				if(!pieces[i]->getTaken()){if (pieces[i]->getLoc()==loc_){found=i;}}
 			}
+			return found;	
 		}
 
 		// Update board
 		void Piece_move(int move_,int c1_,int c2_)
 		{
-			cout<<'\n'<<Player<<" moves "<<c1_<<" to "<<c2_<<endl;
-			for (int i=0;i<64;i++){pieceData[move_][i]=pieceData[move_-1][i];}	// Copy old positions
+			// Copy old positions
+			for (int i=0;i<64;i++){pieceData[move_][i]=pieceData[move_-1][i];}	
 
 			// Moving the piece
 			pieceData[move_][c2_]=pieceData[move_-1][c1_];
+			pieces[findPiece(c1)]->setLoc(c2);
 			pieceData[move_][c1_]=' ';
 		}
 
@@ -135,47 +132,53 @@ class Board
 		void start_game()
 		{
 			Player	= 	'W';
+			pieces.resize(32);
+			pieces[0]  = new Piece('P','W',1,0);
+			pieces[1]  = new Piece('P','W',1,1);
+			pieces[2]  = new Piece('P','W',1,2);
+			pieces[3]  = new Piece('P','W',1,3);
+			pieces[4]  = new Piece('P','W',1,4);
+			pieces[5]  = new Piece('P','W',1,5);
+			pieces[6]  = new Piece('P','W',1,6);
+			pieces[7]  = new Piece('P','W',1,7);
+			pieces[8]  = new Piece('R','W',0,0);
+			pieces[9]  = new Piece('R','W',0,7);
+			pieces[10] = new Piece('N','W',0,1);
+			pieces[11] = new Piece('N','W',0,6);
+			pieces[12] = new Piece('B','W',0,2);
+			pieces[13] = new Piece('B','W',0,5);
+			pieces[14] = new Piece('Q','W',0,3);
+			pieces[15] = new Piece('K','W',0,4);
+			pieces[16] = new Piece('p','B',6,0);
+			pieces[17] = new Piece('p','B',6,1);
+			pieces[18] = new Piece('p','B',6,2);
+			pieces[19] = new Piece('p','B',6,3);
+			pieces[20] = new Piece('p','B',6,4);
+			pieces[21] = new Piece('p','B',6,5);
+			pieces[22] = new Piece('p','B',6,6);
+			pieces[23] = new Piece('p','B',6,7);
+			pieces[24] = new Piece('r','B',7,0);
+			pieces[25] = new Piece('r','B',7,7);
+			pieces[26] = new Piece('n','B',7,1);
+			pieces[27] = new Piece('n','B',7,6);
+			pieces[28] = new Piece('b','B',7,2);
+			pieces[29] = new Piece('b','B',7,5);
+			pieces[30] = new Piece('q','B',7,3);
+			pieces[31] = new Piece('k','B',7,4);
+
 			for (int i=0;i<64;i++){pieceData[0][i] = ' ';}
-			Piece P1('P','W',1,0);pieceData[0][P1.loc] = P1.type;
-			Piece P2('P','W',1,1);pieceData[0][P2.loc] = P2.type;
-			Piece P3('P','W',1,2);pieceData[0][P3.loc] = P3.type;
-			Piece P4('P','W',1,3);pieceData[0][P4.loc] = P4.type;
-			Piece P5('P','W',1,4);pieceData[0][P5.loc] = P5.type;
-			Piece P6('P','W',1,5);pieceData[0][P6.loc] = P6.type;
-			Piece P7('P','W',1,6);pieceData[0][P7.loc] = P7.type;
-			Piece P8('P','W',1,7);pieceData[0][P8.loc] = P8.type;
-			Piece R1('R','W',0,0);pieceData[0][R1.loc] = R1.type;
-			Piece R2('R','W',0,7);pieceData[0][R2.loc] = R2.type;
-			Piece N1('N','W',0,1);pieceData[0][N1.loc] = N1.type;
-			Piece N2('N','W',0,6);pieceData[0][N2.loc] = N2.type;
-			Piece B1('B','W',0,2);pieceData[0][B1.loc] = B1.type;
-			Piece B2('B','W',0,5);pieceData[0][B2.loc] = B2.type;
-			Piece Q ('Q','W',0,3);pieceData[0][Q.loc ] =  Q.type;
-			Piece K ('K','W',0,4);pieceData[0][K.loc ] =  K.type;
-			Piece p1('p','B',6,0);pieceData[0][p1.loc] = p1.type;
-			Piece p2('p','B',6,1);pieceData[0][p2.loc] = p2.type;
-			Piece p3('p','B',6,2);pieceData[0][p3.loc] = p3.type;
-			Piece p4('p','B',6,3);pieceData[0][p4.loc] = p4.type;
-			Piece p5('p','B',6,4);pieceData[0][p5.loc] = p5.type;
-			Piece p6('p','B',6,5);pieceData[0][p6.loc] = p6.type;
-			Piece p7('p','B',6,6);pieceData[0][p7.loc] = p7.type;
-			Piece p8('p','B',6,7);pieceData[0][p8.loc] = p8.type;
-			Piece r1('r','B',7,0);pieceData[0][r1.loc] = r1.type;
-			Piece r2('r','B',7,7);pieceData[0][r2.loc] = r2.type;
-			Piece n1('n','B',7,1);pieceData[0][n1.loc] = n1.type;
-			Piece n2('n','B',7,6);pieceData[0][n2.loc] = n2.type;
-			Piece b1('b','B',7,2);pieceData[0][b1.loc] = b1.type;
-			Piece b2('b','B',7,5);pieceData[0][b2.loc] = b2.type;
-			Piece q ('q','B',7,3);pieceData[0][q.loc ] =  q.type;
-			Piece k ('k','B',7,4);pieceData[0][k.loc ] =  k.type;
-		
-	
+			for (int i=0;i<32;i++){pieceData[0][pieces[i]->getLoc()] = pieces[i]->getType();}
 		}
+
+		void PrintPieceData()
+		{for(int i=0;i<32;i++) pieces[i]->printPiece();
+			cout<<endl;}
 
 	private:
 		//std::vector<double> posData;		///< Store the chess board
 		vector<vector<int> > posData;
 		vector<vector<char> > pieceData;
+		vector<Piece*>	pieces;			///< store piece info in a stack
 		std::string	input_path;		///< Location of the input data
 		int		BSize;			///< Size of the board (number of squares)
 		int 		Brows;			

@@ -6,10 +6,7 @@ using namespace std;
 class Piece
 {
 	public:	
-		
-
-
-		// Initialization
+		// Constructors
 		Piece(char type_,char owner_,int row_,int col_)
 		{
 			type  = type_;
@@ -19,16 +16,33 @@ class Piece
 			taken = false;
 			loc   = row_*8+col_; 
 		}
+		
+		// Destructor
+		~Piece() {}	
 
-
-
+		//----------------------------------------
+		//	Piece types
+		//----------------------------------------
 		//	Pawn	P 
 		//	Rook	R
 		//	Queen	Q
 		// 	Bishop	B
 		//	Knight	N
 		//	King	K
+		//----------------------------------------
 
+		// Functions
+		int 	getLoc() 	{return loc;}
+		int 	getTaken() 	{return taken;}
+		char	getType()	{return type;}
+		void	printPiece()	
+		{
+			cout<<'\n'<<"Piece : "<<type<<" Owner "<<owner<<" Taken "<<taken<<" Location "<<loc;
+		}
+
+		void setLoc(int loc_){loc = loc_;}
+		
+	private :
 		char	type;	
 		char	owner;
 		int	row;
