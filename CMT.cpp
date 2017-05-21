@@ -16,6 +16,7 @@ int main () {
 	
 	//Operations
 	ChessBoard.read_data();
+	ChessBoard.start_game();
 	ChessBoard.printBoard(0);
 	ChessBoard.printBoard(1);
 	ChessBoard.printBoard(2);
