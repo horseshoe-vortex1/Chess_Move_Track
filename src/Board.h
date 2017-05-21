@@ -2,6 +2,7 @@
 #include <vector>
 #include "Piece.h"
 #include <iostream>
+#include <string>
 using namespace std;
 
 class Board
@@ -22,6 +23,7 @@ class Board
 			BSize 	   = 64;
 			Brows	   = 8;
 			Bcol	   = 8;
+			Nloc.resize(2);	// Store the moves in chess notation
 		}
 
 		// Function to read from file and store the data in a matrix
@@ -97,14 +99,19 @@ class Board
 						if(pieceData[move-1][i] == ' '){c2=i;} else {c1=i;}
 					}
 				}
-				// report the findings
-				cout<<"\nA piece "<<pieces[findPiece(c1)]->getType() <<" was moved from "<<c1<<" to "<<c2<<endl;
-				
+				reportMove(c1,c2);				// Report
+
 				if (move%2==0) {Player='B';} else {Player='W';}	//Identify who played
 				Piece_move(move,c1,c2); 	
 			}
 		}
-
+		// report the findings
+		void reportMove(int c1_,int c2_)
+		{
+			vector<char> a = SwitchNotation(c1_); 	
+			vector<char> b = SwitchNotation(c2_); 	
+			cout<<'\n'<<pieces[findPiece(c1_)]->getType() <<a[0]<<a[1]<<"-"<<pieces[findPiece(c1_)]->getType()<<b[0]<<b[1]<<endl;
+		}
 		// Find what piece is there in a particular version of the code
 		int findPiece(int loc_)		
 		{
@@ -170,14 +177,22 @@ class Board
 			for (int i=0;i<32;i++){pieceData[0][pieces[i]->getLoc()] = pieces[i]->getType();}
 		}
 
-		void PrintPieceData()
-		{for(int i=0;i<32;i++) pieces[i]->printPiece();
-			cout<<endl;}
+		// Print where all the pieces currently are
+		void PrintPieceData(){for(int i=0;i<32;i++) pieces[i]->printPiece();cout<<endl;}
+
+		// Switch notation
+		vector<char>  SwitchNotation(int loc_ ) 
+		{
+			Nloc[0] = char(((loc_+1)%8) + 64);
+			Nloc[1] = char(((loc_+1)/8) + 49);
+			return Nloc;
+		}
 
 	private:
 		//std::vector<double> posData;		///< Store the chess board
 		vector<vector<int> > posData;
 		vector<vector<char> > pieceData;
+		vector<char>	Nloc;
 		vector<Piece*>	pieces;			///< store piece info in a stack
 		std::string	input_path;		///< Location of the input data
 		int		BSize;			///< Size of the board (number of squares)
