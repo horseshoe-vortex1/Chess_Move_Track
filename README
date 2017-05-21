@@ -18,8 +18,3 @@
 #	3. Generate outputs in specific formats to enable analysis of the game.
 #
 #--------------------------------------------------------------------------------------------------------
-# Operation:
-# The framework of the program is:
-#	1. Object Board
-#		functions:	a. read_data	->	reads the inputs (columns=A1,A2... & rows=move_numebr)	
-#				b. printBoard	->	prints the board after a particular move number
