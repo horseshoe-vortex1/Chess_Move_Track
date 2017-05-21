@@ -24,6 +24,7 @@ class Board
 			Brows	   = 8;
 			Bcol	   = 8;
 			Nloc.resize(2);	// Store the moves in chess notation
+			PiecesOnBoard = 32;
 		}
 
 		// Function to read from file and store the data in a matrix
@@ -91,20 +92,48 @@ class Board
 			{ 
 				// Search the board for changes
 				c1=-1;c2=-1;
-
-				for (int i=0;i<BSize;i++)
+				// Check if a piece has been exchanged
+				if(countPieces(move)<countPieces(move-1))
 				{
-					if(posData[move][i]-posData[move-1][i]!=0)
+					for (int i=0;i<BSize;i++)
 					{
-						if(pieceData[move-1][i] == ' '){c2=i;} else {c1=i;}
+						if(posData[move][i]-posData[move-1][i]!=0)
+						{
+							c1 = i;
+							break;
+						}
 					}
+					
 				}
-				reportMove(c1,c2);				// Report
+				// A piece has been moved
+				else
+				{
+					for (int i=0;i<BSize;i++)
+					{
+						if(posData[move][i]-posData[move-1][i]!=0)
+						{
+							if(pieceData[move-1][i] == ' '){c2=i;} else {c1=i;}
+						}
+					}
+					reportMove(c1,c2);				// Report
 
-				if (move%2==0) {Player='B';} else {Player='W';}	//Identify who played
-				Piece_move(move,c1,c2); 	
+					if (move%2==0) {Player='B';} else {Player='W';}	//Identify who played
+					Piece_move(move,c1,c2); 	
+				}
 			}
 		}
+
+		// Count the number of pieces on the board
+		int 	countPieces (int move_)
+		{
+			int count;
+			for(int i=0;i<64;i++) 
+			{
+				if(pieceData[move_][i]!=' ')	count++;
+			}
+			
+		}
+
 		// report the findings
 		void reportMove(int c1_,int c2_)
 		{
@@ -112,6 +141,7 @@ class Board
 			vector<char> b = SwitchNotation(c2_); 	
 			cout<<'\n'<<pieces[findPiece(c1_)]->getType() <<a[0]<<a[1]<<"-"<<pieces[findPiece(c1_)]->getType()<<b[0]<<b[1]<<endl;
 		}
+
 		// Find what piece is there in a particular version of the code
 		int findPiece(int loc_)		
 		{
@@ -200,4 +230,5 @@ class Board
 		int 		Bcol;
 		int 		c1,c2;			///<locations of the pices that moved
 		char		Player;			///< Black or White to move
+		int		PiecesOnBoard;		///< Counts the number of pieces on the board
 };
