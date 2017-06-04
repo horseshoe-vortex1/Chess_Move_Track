@@ -1,0 +1,85 @@
+Estimate of the costs for the initial 3x3 and 2x2 chess board test.
+
+Tools:
+	Wire Clipper		x1	~	8.76
+	Pliers			x1	Y	5.55
+	Multimeter		x1	~	10.50
+	Soldering iron kit	x1	Y	23	[Includes all tools]	
+
+
+Microprocessor:
+	Arduino	Uno		x1	~	23.60
+	Arduino Mega		x1	~	42.07
+	Freeduino		x1	-	?
+	74HC595			x1	~	0.526
+
+Circuit:
+	Wires			x4	Y	0.164	[4 diff colors]
+	Diodes			x25	Y	0.15
+	Resistors		x100	Y	1.00	[25 x 4 ranges]
+	Breadboard		x2-x4	Y	3.81
+	NPN Transistors		x20	Y	0.06
+	LED			x20	Y	0.15
+	Push button		x10	Y	0.08
+	Magnets			x10	Y	4.72
+
+Sensors:
+	Reed sensor		x0	N	0.92
+	Hall sensor		x15	Y	1.33
+
+_______________________________________________
+Cost estimate of circuit parts :
+_____________________________________
+0.656
+3.75
+4
+7.62
+1.2
+1.5
+0.8
+4.72
+
+-----------------------------------------------------------------------------------------------------
+Tools		:	23.00
+MPC		:	26.00	-1
+Circuit		:	42.40	-18.15
+Sensors		:	15.96	-8
+________________________________
+Total		:	112	85
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
